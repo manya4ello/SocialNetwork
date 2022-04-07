@@ -9,22 +9,34 @@ namespace SocialNetwork.PLL.Views
     {
         public void Show()
         {
-            Console.WriteLine("Войти в профиль (нажмите 1)");
-            Console.WriteLine("Зарегистрироваться (нажмите 2)");
-
-            switch (Console.ReadLine())
+            while (true)
             {
-                case "1":
-                    {
-                        Program.authenticationView.Show();
-                        break;
-                    }
+                Console.WriteLine("Войти в профиль (нажмите 1)");
+                Console.WriteLine("Зарегистрироваться (нажмите 2)");
+                Console.WriteLine("Выход (нажмите 0)");
 
-                case "2":
-                    {
-                        Program.registrationView.Show();
-                        break;
-                    }
+                string keyValue = Console.ReadLine();
+                if (keyValue == "0") break;
+
+                switch (keyValue)
+                {
+                    case "1":
+                        {
+                            Program.authenticationView.Show();
+                            break;
+                        }
+
+                    case "2":
+                        {
+                            Program.registrationView.Show();
+                            break;
+                        }
+                    case "0":
+                        {
+
+                            break;
+                        }
+                }
             }
         }
     }

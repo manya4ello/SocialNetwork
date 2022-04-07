@@ -13,10 +13,12 @@ namespace SocialNetwork.BLL.Services
     {
         MessageService messageService;
         IUserRepository userRepository;
+        IFriendRepository friendRepository; 
         public UserService()
         {
             userRepository = new UserRepository();
             messageService = new MessageService();
+            friendRepository = new FriendRepository();
         }
 
         public void Register(UserRegistrationData userRegistrationData)
@@ -100,8 +102,35 @@ namespace SocialNetwork.BLL.Services
                 throw new Exception();
         }
 
+        public IEnumerable<Friend> GetFriendsByUserId(int recipientId)
+        {
+            var friends = new List<Friend>();
+
+            friendRepository.FindAllByUserId(recipientId).ToList().ForEach(m =>
+                friends.Add(new Friend(userRepository.FindById(m.friend_id))));
+
+            return friends;
+        }
+
+        public IEnumerable<Friend> GetFriendOfByUserId(int recipientId)
+        {
+            var friends = new List<Friend>();
+
+            friendRepository.FindAllByFriendId(recipientId).ToList().ForEach(m =>
+            {
+                
+                friends.Add(new Friend(userRepository.FindById(m.friend_id)));
+            });
+
+            return friends;
+        }
+
         private User ConstructUserModel(UserEntity userEntity)
         {
+            
+            var userFriends = GetFriendsByUserId(userEntity.id);
+            var userFriendOf = GetFriendOfByUserId(userEntity.id);
+
             var incomingMessages = messageService.GetIncomingMessagesByUserId(userEntity.id);
 
             var outgoingMessages = messageService.GetOutcomingMessagesByUserId(userEntity.id);
@@ -115,8 +144,25 @@ namespace SocialNetwork.BLL.Services
                           userEntity.favorite_movie,
                           userEntity.favorite_book,
                           incomingMessages,
-                          outgoingMessages
+                          outgoingMessages,
+                          userFriends,
+                          userFriendOf
                           );
+        }
+        public void AddFreind(FriendRegistrationData friendRegistrationData)
+        {
+            
+            var findUserEntity = this.userRepository.FindByEmail(friendRegistrationData.Friend_email);
+            if (findUserEntity is null) throw new UserNotFoundException();
+
+            var friendEntity = new FriendEntity()
+            {
+                user_id = friendRegistrationData.User_id,
+                friend_id = findUserEntity.id
+            };
+
+            if (this.friendRepository.Create(friendEntity) == 0)
+                throw new Exception();
         }
     }
 }
