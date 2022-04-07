@@ -155,6 +155,9 @@ namespace SocialNetwork.BLL.Services
             var findUserEntity = this.userRepository.FindByEmail(friendRegistrationData.Friend_email);
             if (findUserEntity is null) throw new UserNotFoundException();
 
+            var existingFriends = GetFriendsByUserId(friendRegistrationData.User_id);
+            if (existingFriends.Any(m => m.Id == findUserEntity.id)) throw new DoubleRecordTryException();
+
             var friendEntity = new FriendEntity()
             {
                 user_id = friendRegistrationData.User_id,

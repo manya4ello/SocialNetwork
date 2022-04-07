@@ -41,9 +41,9 @@ namespace SocialNetwork.PLL.Views
                 AlertMessage.Show("Пользователь не найден!");
             }
 
-            catch (ArgumentNullException)
+            catch (DoubleRecordTryException)
             {
-                AlertMessage.Show("Введите корректное значение!");
+                AlertMessage.Show("Такой друг уже добавлен");
             }
 
             catch (Exception)
