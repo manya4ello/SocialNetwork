@@ -43,8 +43,7 @@ namespace SocialNetwork.BLL.Tests
         public void FindByEmailThrowExceptionsTest()
         {
             var userService = new UserService();
-            Assert.Throws<UserNotFoundException>(() => userService.FindByEmail("thereisnosuchemail@no.no"));
-            Assert.Throws<UserNotFoundException>(() => userService.FindByEmail("mail@mail.ru"));
+            Assert.Throws<UserNotFoundException>(() => userService.FindByEmail("thereisnosuchemail@no.no"));            
         }
 
 
