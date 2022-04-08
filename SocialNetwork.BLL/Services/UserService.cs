@@ -34,11 +34,11 @@ namespace SocialNetwork.BLL.Services
 
             if (String.IsNullOrEmpty(userRegistrationData.Email))
                 throw new ArgumentNullException();
-
-            if (userRegistrationData.Password.Length < 8)
+                        
+            if (!new EmailAddressAttribute().IsValid(userRegistrationData.Email))
                 throw new ArgumentNullException();
 
-            if (!new EmailAddressAttribute().IsValid(userRegistrationData.Email))
+            if (userRegistrationData.Password.Length < 8)
                 throw new ArgumentNullException();
 
             if (userRepository.FindByEmail(userRegistrationData.Email) != null)

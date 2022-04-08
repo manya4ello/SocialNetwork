@@ -9,11 +9,7 @@ namespace SocialNetwork.BLL.Tests
 {
     public class UserServiceTests
     {
-        [Fact]
-        public void TestOfTest()
-        {
-            Assert.True(true);
-        }
+        
 
         [Fact]
         public void RegistrationThrowExceptionsTest()
@@ -21,9 +17,26 @@ namespace SocialNetwork.BLL.Tests
             var userService = new UserService();
 
             var testuser = new UserRegistrationData();
+            //ошибка на пустое имя
             Assert.Throws<ArgumentNullException>(() => userService.Register(testuser));
 
+            //ошибка на пустую фамилию
             testuser.FirstName = "Ivan";
+            Assert.Throws<ArgumentNullException>(() => userService.Register(testuser));
+
+            //ошибка на пустой email
+            testuser.LastName = "Ivanov";
+            Assert.Throws<ArgumentNullException>(() => userService.Register(testuser));
+
+            //ошибка на неправильный email
+            testuser.Email = "test.test";
+            Assert.Throws<ArgumentNullException>(() => userService.Register(testuser));
+
+            //ошибка на пароль
+            testuser.Email = "test@test.ru";
+            testuser.Password = "1234567";
+            Assert.Throws<ArgumentNullException>(() => userService.Register(testuser));
+
         }
 
         [Fact]
