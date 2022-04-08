@@ -10,6 +10,12 @@ namespace SocialNetwork.BLL.Tests
     public class UserServiceTests
     {
         [Fact]
+        public void TestOfTest()
+        {
+            Assert.True(true);
+        }
+
+        [Fact]
         public void RegistrationThrowExceptionsTest()
         {
             var userService = new UserService();
@@ -25,6 +31,7 @@ namespace SocialNetwork.BLL.Tests
         {
             var userService = new UserService();
             Assert.Throws<UserNotFoundException>(() => userService.FindByEmail("thereisnosuchemail@no.no"));
+            Assert.Throws<UserNotFoundException>(() => userService.FindByEmail("mail@mail.ru"));
         }
 
 
