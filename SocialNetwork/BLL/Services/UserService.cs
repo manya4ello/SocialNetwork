@@ -119,7 +119,7 @@ namespace SocialNetwork.BLL.Services
             friendRepository.FindAllByFriendId(recipientId).ToList().ForEach(m =>
             {
                 
-                friends.Add(new Friend(userRepository.FindById(m.friend_id)));
+                friends.Add(new Friend(userRepository.FindById(m.user_id)));
             });
 
             return friends;

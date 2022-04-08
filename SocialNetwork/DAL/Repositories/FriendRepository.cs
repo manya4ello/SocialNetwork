@@ -10,10 +10,10 @@ namespace SocialNetwork.DAL.Repositories
             return Query<FriendEntity>(@"select * from friends where user_id = :user_id", new { user_id = userId });
         }
 
-        public IEnumerable<FriendEntity> FindAllByFriendId(int friendId)
+        public IEnumerable<FriendEntity> FindAllByFriendId(int userId)
         {
-            return Query<FriendEntity>(@"select * from friends where friend_id = :check_id", new { check_id = friendId });
-        }
+            return Query<FriendEntity>($"select * from friends where friend_id = {userId}");
+         }
         public int Create(FriendEntity friendEntity)
         {
             return Execute(@"insert into friends (user_id,friend_id) values (:user_id,:friend_id)", friendEntity);
